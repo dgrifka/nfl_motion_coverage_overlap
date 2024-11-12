@@ -196,7 +196,7 @@ def process_tracking_data(
                     how="inner"
                 )
                 .filter(pl.col("frameId") >= pl.col("line_set_frameId"))
-                .filter(pl.col("frameType") == "BEFORE_SNAP")
+                .filter((pl.col("frameType") == "BEFORE_SNAP") | (pl.col("frameType") == "SNAP"))
                 .sort(["gameId", "playId", "nflId", "frameId"])
                 .drop("line_set_frameId")
             )
