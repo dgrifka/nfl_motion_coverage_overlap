@@ -11,6 +11,11 @@ from scipy.stats import gaussian_kde
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 
+# Animation and image handling
+import imageio
+from IPython.display import Image, display
+import tempfile
+import os
 #############################################################################################################
 
 def get_actual_routes(receivers_df, game_id, play_id):
