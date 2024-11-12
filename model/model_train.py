@@ -477,28 +477,45 @@ def save_models_and_scalers(model_name, model, scaler_X, scaler_y, history):
 
 #############################################################################################################
 
-def load_model_and_scalers(model_name):
-    """Load a saved model and its scalers from individual files."""
+def load_model_and_scalers(model_name, base_path='model/actual_models'):
+    """
+    Load a saved model and its scalers from individual files.
+    
+    Parameters:
+        model_name (str): Name of the model ('offensive' or 'defensive')
+        base_path (str): Base path where model files are stored
+    """
     # Register the custom loss function
     tf.keras.utils.get_custom_objects()['route_aware_loss'] = route_aware_loss
-
+    
     # Enable unsafe deserialization
     tf.keras.config.enable_unsafe_deserialization()
-
+    
+    # Construct full file paths
+    model_path = os.path.join(base_path, f'{model_name}_model.keras')
+    scalers_path = os.path.join(base_path, f'{model_name}_scalers.pkl')
+    history_path = os.path.join(base_path, f'{model_name}_history.pkl')
+    
+    # Check if files exist
+    for filepath in [model_path, scalers_path, history_path]:
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"Could not find file: {filepath}")
+    
     # Load the model
-    model = tf.keras.models.load_model(f'{model_name}_model.keras')
-
+    model = tf.keras.models.load_model(model_path)
+    
     # Load the scalers
-    with open(f'{model_name}_scalers.pkl', 'rb') as f:
+    with open(scalers_path, 'rb') as f:
         scalers = pickle.load(f)
-
+    
     # Load the history
-    with open(f'{model_name}_history.pkl', 'rb') as f:
+    with open(history_path, 'rb') as f:
         history = pickle.load(f)
-
+    
     return (
         model,
         (scalers['position_scaler'], scalers['context_scaler']),
         scalers['y_scaler'],
         history
     )
+
