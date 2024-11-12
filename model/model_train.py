@@ -477,29 +477,36 @@ def save_models_and_scalers(model_name, model, scaler_X, scaler_y, history):
 
 #############################################################################################################
 
-def load_model_and_scalers(model_name, base_path='model/actual_models'):
+def load_model_and_scalers(model_name):
     """
     Load a saved model and its scalers from individual files.
     
     Parameters:
         model_name (str): Name of the model ('offensive' or 'defensive')
-        base_path (str): Base path where model files are stored
     """
-    # Register the custom loss function
-    tf.keras.utils.get_custom_objects()['route_aware_loss'] = route_aware_loss
+    # Get the current script's directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Enable unsafe deserialization
-    tf.keras.config.enable_unsafe_deserialization()
+    # Construct the base path to the models directory
+    base_path = os.path.join(current_dir, 'model', 'actual_models')
     
     # Construct full file paths
     model_path = os.path.join(base_path, f'{model_name}_model.keras')
     scalers_path = os.path.join(base_path, f'{model_name}_scalers.pkl')
     history_path = os.path.join(base_path, f'{model_name}_history.pkl')
     
+    # Register the custom loss function
+    tf.keras.utils.get_custom_objects()['route_aware_loss'] = route_aware_loss
+    
+    # Enable unsafe deserialization
+    tf.keras.config.enable_unsafe_deserialization()
+    
     # Check if files exist
     for filepath in [model_path, scalers_path, history_path]:
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Could not find file: {filepath}")
+            
+    print(f"Loading model from: {model_path}")  # Debug print
     
     # Load the model
     model = tf.keras.models.load_model(model_path)
