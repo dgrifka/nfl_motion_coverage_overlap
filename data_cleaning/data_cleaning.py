@@ -112,7 +112,7 @@ def process_tracking_data(
 ) -> pl.DataFrame:
     """
     Process NFL tracking data by combining multiple weeks and filtering for either pre-snap or post-snap frames.
-    For post-snap, identifies pass plays. For pre-snap, identifies plays with motion.
+    For post-snap, identifies pass plays. For pre-snap, identifies plays with motion and includes football tracking.
 
     Args:
         tracking_path (str or Path): Base path where tracking CSV files are stored
@@ -134,11 +134,12 @@ def process_tracking_data(
     # Convert path to Path object for better path handling
     base_path = Path(tracking_path)
 
-    # Initialize empty DataFrame
+    # Initialize empty DataFrames
     filtered_data = None
+    football_data = None
 
     # Required columns for validation
-    required_cols = {'gameId', 'playId', 'nflId', 'frameId', 'frameType', 'event'}
+    required_cols = {'gameId', 'playId', 'nflId', 'frameId', 'frameType', 'event', 'displayName'}
 
     # Process each week's data
     for week in weeks:
@@ -165,6 +166,13 @@ def process_tracking_data(
             )
         else:
             # Pre-snap processing
+            # Separate football tracking data
+            week_football = (
+                week_df
+                .filter(pl.col("displayName") == "football")
+                .filter((pl.col("frameType") == "BEFORE_SNAP") | (pl.col("frameType") == "SNAP"))
+            )
+
             # Find minimum frameId for line_set events
             line_set_frames = (
                 week_df
@@ -185,6 +193,7 @@ def process_tracking_data(
             # Filter for pre-snap frames after line_set
             week_df = (
                 week_df
+                .filter(pl.col("nflId").is_not_null())  # Exclude football rows from main processing
                 .join(
                     line_set_frames,
                     on=["gameId", "playId", "nflId"],
@@ -197,19 +206,38 @@ def process_tracking_data(
                 )
                 .filter(pl.col("frameId") >= pl.col("line_set_frameId"))
                 .filter((pl.col("frameType") == "BEFORE_SNAP") | (pl.col("frameType") == "SNAP"))
-                .sort(["gameId", "playId", "nflId", "frameId"])
                 .drop("line_set_frameId")
             )
 
-        # Concatenate with existing results
+            # Filter football data to only include plays with motion
+            week_football = (
+                week_football
+                .join(
+                    motion_plays,
+                    on=["gameId", "playId"],
+                    how="inner"
+                )
+            )
+
+            # Concatenate football data
+            if football_data is None:
+                football_data = week_football
+            else:
+                football_data = pl.concat([football_data, week_football])
+
+        # Concatenate player data
         if filtered_data is None:
             filtered_data = week_df
         else:
             filtered_data = pl.concat([filtered_data, week_df])
 
-    # Final sorting
-    return filtered_data.sort(["gameId", "playId", "nflId", "frameId"])
+    # Combine player and football data for pre-snap
+    if snap_type == "pre" and football_data is not None:
+        filtered_data = pl.concat([filtered_data, football_data])
 
+    # Final sorting - note that nflId can be null for football rows
+    return filtered_data.sort(["gameId", "playId", "frameId"])
+  
 #############################################################################################################
 
 def calculate_mean_ttt(post_snap: pl.DataFrame, frame_rate: float = 0.1) -> float:
