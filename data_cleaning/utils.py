@@ -59,3 +59,46 @@ def find_overlapping_plays_efficient(df1, df2):
             print(f"GameId: {play[0]}, PlayId: {play[1]}")
 
     return total_overlaps, overlap_percentage
+
+#############################################################################################################
+
+def sample_man_zone_plays(df, n_samples=25):
+    """
+    Randomly sample n_samples unique plays for both Man and Zone coverage.
+    
+    Parameters:
+    df: Polars DataFrame with columns [gameId, playId, pff_manZone]
+    n_samples: Number of plays to sample for each coverage type (default: 25)
+    
+    Returns:
+    Dictionary containing two lists of (gameId, playId) tuples for Man and Zone plays
+    """
+    # Get unique combinations of gameId and playId for each coverage type
+    unique_plays = (
+        df.select(['gameId', 'playId', 'pff_manZone'])
+        .unique(subset=['gameId', 'playId', 'pff_manZone'])
+    )
+    
+    # Separate Man and Zone plays
+    man_plays = (
+        unique_plays
+        .filter(pl.col('pff_manZone') == 'Man')
+        .select(['gameId', 'playId'])
+        .sample(n=n_samples, shuffle=True)
+        .to_pandas()
+        .values.tolist()
+    )
+    
+    zone_plays = (
+        unique_plays
+        .filter(pl.col('pff_manZone') == 'Zone')
+        .select(['gameId', 'playId'])
+        .sample(n=n_samples, shuffle=True)
+        .to_pandas()
+        .values.tolist()
+    )
+    
+    return {
+        'man_plays': man_plays,
+        'zone_plays': zone_plays
+    }
