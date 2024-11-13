@@ -102,3 +102,34 @@ def sample_man_zone_plays(df, n_samples=25):
         'man_plays': man_plays,
         'zone_plays': zone_plays
     }
+
+#############################################################################################################
+
+def filter_sampled_plays(existing_manzone, sampled_plays):
+    """
+    Remove plays from sampled_plays that exist in existing_manzone DataFrame.
+    This is used in the Model Predictions file to ensure no duplicate predictions
+    are made.
+    
+    Parameters:
+    existing_manzone (pd.DataFrame): DataFrame with gameId and playId columns
+    sampled_plays (dict): Dictionary of lists containing [gameId, playId] pairs
+    
+    Returns:
+    dict: Filtered sampled_plays dictionary
+    """
+    # Convert existing data to set of tuples for O(1) lookup
+    existing_pairs = set(zip(existing_manzone['gameId'], existing_manzone['playId']))
+    
+    # Create new dictionary with filtered lists
+    filtered_plays = {}
+    
+    for key, plays in sampled_plays.items():
+        # Keep only plays that don't exist in existing_manzone
+        filtered_list = [
+            play for play in plays 
+            if tuple(play) not in existing_pairs
+        ]
+        filtered_plays[key] = filtered_list
+    
+    return filtered_plays
