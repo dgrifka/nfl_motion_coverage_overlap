@@ -67,15 +67,15 @@ o	Bayesian comparative modeling
 
 # Installation & Usage
 
-This project uses Google Colab for analysis. The `Model_Training.ipynb` and `Model_Predictions.ipynb` files contain information and instructions on cloning the repo for your own purposes. These files are as described, but reference both the `data_cleaning` and `model` folders. The `Overlap_Analysis.ipynb` file requires the `zone_man_overlap.csv` file be uploaded, which can be found in the `model` folder. Other than that, the file contains its own functions that don’t require cloning GitHub.
+This project uses Google Colab for analysis. The `Model_Training.ipynb`, `Model_Predictions.ipynb`, and `Overlap_Analysis.ipynb` files contain information and instructions on cloning the repo for your own purposes. These files are as described, but reference both the `data_cleaning`, `model`, and `analysis` folders.
 
 # Project Structure
 
 ├── data_cleaning/
 
-│   ├── 1_data_cleaning.py         # Data cleaning and preparation
+│   ├── data_cleaning.py         # Data cleaning and preparation
 
-│   └── 2_utils.py                 # Helper functions
+│   └── utils.py                 # Helper functions
 
 ├── model/
 
@@ -85,11 +85,16 @@ This project uses Google Colab for analysis. The `Model_Training.ipynb` and `Mod
 
 │   └── zone_man_overlap/         # Frame-by-frame predictions
 
-├── Model_Predictions.ipynb       # Prediction notebook
+├── Colab/
 
-├── Model_Training.ipynb         # Training notebook
+│   ├── Model_Predictions.ipynb       # Prediction notebook
 
-├── Overlap_Analysis.ipynb       # Bayesian analysis notebook
+│   ├── Model_Training.ipynb         # Training notebook
+
+│   └── Overlap_Analysis.ipynb       # Probability programming notebook
+
+├── analysis/
+
 
 ├── setup.py                    # Package configuration
 
