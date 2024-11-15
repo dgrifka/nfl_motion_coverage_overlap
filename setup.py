@@ -46,3 +46,4 @@ from data_cleaning.data_cleaning import *
 from data_cleaning.utils import *
 from model.model_predictions import *
 from model.model_train import *
+from analysis.analysis import *
