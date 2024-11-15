@@ -65,7 +65,7 @@ o	Bayesian comparative modeling
 
 # Installation & Usage
 
-This project uses Google Colab for analysis. The `Model_Training.ipynb`, `Model_Predictions.ipynb`, and `Overlap_Analysis.ipynb` files contain information and instructions on cloning the repo for your own purposes. These files are as described, but reference both the `data_cleaning`, `model`, and `analysis` folders.
+This project uses Google Colab for analysis. The `Model_Training.ipynb`, `Model_Predictions.ipynb`, and `Overlap_Analysis.ipynb` files in the `colab` folder contain information and instructions on cloning the repo in Colab for your own purposes. These files are as described, but reference the `data_cleaning`, `model`, and `analysis` folders.
 
 # Project Structure
 
@@ -93,6 +93,7 @@ This project uses Google Colab for analysis. The `Model_Training.ipynb`, `Model_
 
 ├── analysis/
 
+│   └── analysis.py       # Distribution plots
 
 ├── setup.py                    # Package configuration
 
