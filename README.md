@@ -72,16 +72,27 @@ This project uses Google Colab for analysis. The `Model_Training.ipynb` and `Mod
 Project Structure
 
 ├── data_cleaning/
+
 │   ├── 1_data_cleaning.py         # Data cleaning and preparation
+
 │   └── 2_utils.py                 # Helper functions
+
 ├── model/
+
 │   ├── model_predictions.py       # Heat map predictions
+
 │   ├── model_train.py            # Neural network architecture
+
 │   └── zone_man_overlap/         # Frame-by-frame predictions
+
 ├── Model_Predictions.ipynb       # Prediction notebook
+
 ├── Model_Training.ipynb         # Training notebook
+
 ├── Overlap_Analysis.ipynb       # Bayesian analysis notebook
+
 ├── setup.py                    # Package configuration
+
 └── README.md                   # Data documentation
 
 Contact
