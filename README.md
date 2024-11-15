@@ -5,11 +5,11 @@ NFL Pre-Snap Motion Analysis
 
 A machine learning approach to analyzing how pre-snap motion impacts Defensive coverage in the NFL using player tracking data.
 
-Overview
+# Overview
 
 This project uses neural networks to generate heat maps of likely player positions in the first ~2.6 seconds after snap, analyzing how pre-snap motion affects the spatial relationship between offense and defense. The analysis compares Man vs. Zone coverage responses to motion using a Bayesian approach.
 
-Key Features
+# Key Features
 
 •	Neural network model for predicting player movement probabilities
 •	Monte Carlo sampling for movement prediction
@@ -17,7 +17,7 @@ Key Features
 •	Comparative analysis of Man vs. Zone coverage responses
 •	Bayesian statistical modeling for coverage comparison
 
-Data
+# Data
 
 The model uses 2022 NFL player tracking data, focusing on:
 •	Offensive players: WR, TE, RB
@@ -25,7 +25,7 @@ The model uses 2022 NFL player tracking data, focusing on:
 •	~2.6 seconds of post-snap passing data
 •	Pre-snap motion plays
 
-Methodology
+# Methodology
 
 1.	Data Preparation 
 o	Standardized play directions
@@ -43,21 +43,21 @@ o	Weighted overlap scoring using cosine similarity
 o	Frame-by-frame coverage analysis
 o	Bayesian comparative modeling
 
-Key Findings
+# Key Findings
 
 •	Man coverage shows higher overlap coefficients (0.51 vs 0.38)
 •	Man coverage exhibits more volatility during motion sequences
 •	Zone coverage more likely (~91%) to experience negative deltas in overlap
 •	Neither coverage type is inherently superior; effectiveness depends on Offensive strategy
 
-Applications
+# Applications
 
 •	Real-time coverage gap analysis
 •	Defensive strategy adjustment
 •	Player development and evaluation
 •	Coverage pattern recognition
 
-Future Development
+# Future Development
 
 •	Incorporate player speed/acceleration profiles
 •	Expand Defensive scheme identification
@@ -65,11 +65,11 @@ Future Development
 •	Include environmental factors
 •	Add run play analysis
 
-Installation & Usage
+# Installation & Usage
 
 This project uses Google Colab for analysis. The `Model_Training.ipynb` and `Model_Predictions.ipynb` files contain information and instructions on cloning the repo for your own purposes. These files are as described, but reference both the `data_cleaning` and `model` folders. The `Overlap_Analysis.ipynb` file requires the `zone_man_overlap.csv` file be uploaded, which can be found in the `model` folder. Other than that, the file contains its own functions that don’t require cloning GitHub.
 
-Project Structure
+# Project Structure
 
 ├── data_cleaning/
 
@@ -95,5 +95,6 @@ Project Structure
 
 └── README.md                   # Data documentation
 
-Contact
+# Contact
+
 Derek Grifka – dmgrifka@gmail.com - https://dgrifka.github.io/
