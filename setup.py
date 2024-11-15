@@ -18,9 +18,14 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 # Visualization and display
 import matplotlib.pyplot as plt
+import seaborn as sns
 import matplotlib.animation as animation
 from IPython.display import HTML, display
 from scipy.stats import gaussian_kde
+
+# Probability modeling
+import pymc as pm
+import arviz as az
 
 # Progress tracking
 from tqdm import tqdm
