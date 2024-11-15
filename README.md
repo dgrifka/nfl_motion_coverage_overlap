@@ -1,7 +1,5 @@
 # nfl_motion_coverage_overlap
-NFL Big Data Bowl 2025 Code
-
-NFL Pre-Snap Motion Analysis
+NFL Big Data Bowl 2025 Code - NFL Pre-Snap Motion Analysis
 
 A machine learning approach to analyzing how pre-snap motion impacts Defensive coverage in the NFL using player tracking data.
 
