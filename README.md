@@ -97,6 +97,8 @@ This project uses Google Colab for analysis. The `Model_Training.ipynb`, `Model_
 
 ├── setup.py                    # Package configuration
 
+├── img/  # Folder of images referenced in Kaggle notebook
+
 └── README.md                   # Data documentation
 
 # Contact
